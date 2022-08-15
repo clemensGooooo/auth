@@ -14,25 +14,6 @@ router.route("/fetchchatItems").get(function (req, res) {
     }
 });
 
-router.post("/createChat", (req, res) => {
-    try {
-        // need name,users, create id
-        var { name, users } = req.query;
-        var chatId = Math.floor(Math.random() * 1000000000000) + 1;
-        var newChat = [{ name: name, users: JSON.parse(users), id: chatId }];
-        // console.log(newChat);
-        chatList.insertMany(newChat, function (err, result) {
-            if (err) {
-                res.send(err);
-            } else {
-                res.status(200).send("Success")
-            }
-        });
-    } catch {
-        res.status(401).sendFile("/home/clemens/Dokumente/auth/web/401.html");
-    }
-})
-
 router.post("/deleteChat", (req, res) => {
     try {
         var { id } = req.query;
@@ -51,7 +32,16 @@ router.post("/deleteChat", (req, res) => {
                                     if (err3) {
                                         res.send(err);
                                     } else {
-                                        res.status(200).send("Success !")
+                                        if (result[0].img != null && result[0].img != undefined &&
+                                            result[0].img != "") {
+                                            fs.unlink("web/chat/upload/" + result[0].img, (err) => {
+                                                if (err) {
+                                                    console.log(err);
+                                                } else {
+                                                    res.status(200).send("Success")
+                                                }
+                                            })
+                                        }
                                     }
                                 })
                             }
@@ -83,7 +73,6 @@ router.post("/deleteHistory", (req, res) => {
                             if (err2) {
                                 res.send(err);
                             } else {
-                                fs.unlink("web/chat/upload/227923733125backgorund.jpg")
                                 res.status(200).send("Success !")
                             }
                         })
@@ -194,5 +183,5 @@ router.get("/getChats", (req, res) => {
 });
 
 router.use(fileUpload())
-router.post('/new', createNewChatIcon, createChatInDatabase)
+router.post('/createChat', createNewChatIcon, createChatInDatabase)
 module.exports = router;
