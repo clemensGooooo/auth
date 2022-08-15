@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!--
+    Relesed Date 9,10/04/2022 0.0/0.1
+    - Beter Design
+    Released Date 11/04/2022 0.2
+    - Buttons unten abgesichert von Table
+    - delete function with confirm window
+    - letztes Leerzeichen wird abgeschnitten
+    - HTML ansicht Notizen verbessert
+    Relesed Date 12/04/2022
+    - Acess per token
+    - 2-parts for Euro
+    - table sort
+    Now
+    - Token to numberToken
+    - MongoDB Backgroud
+    - make all alittle bit simpler
+-->
+
+<head>
+    <link rel="stylesheet" href="products.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Inventar - Home</title>
+</head>
+<html>
+
+<body id="body" onload="loadData()">
+    <div class="topnav">
+        <a class="active" href="#home">Home</a>
+        <a onclick="showLicens()" style="cursor:pointer;">About</a>
+        <a onclick='alert("Don`t contact me !! \n")'>Contact</a>
+        <div class="search-container">
+            <input onkeyup="search()" id="searchField" type="text" placeholder="Search.." name="search">
+            <datalist id="optionData">
+            </datalist>
+            <button title="Die Groß und Kleinschreibung ist egal"><i class="fa fa-search"></i></button>
+        </div>
+    </div>
+    <div style="padding-left:16px">
+        <h2>Stock Overview</h2>
+        <p>Here you can create lements with the buttons and insert it.</p>
+        <p>You can write notices as HTML into your database.</p>
+    </div>
+
+    <table id="tableProducts">
+        <tr>
+            <th onclick="sortTable(0,false)">Produkte</th>
+            <th onclick="sortTable(1,false)">Notizen</th>
+            <th onclick="sortTable(2,true)">Menge</th>
+            <th onclick="sortTable(3,false)">Kosten</th>
+            <th>Used</th>
+        </tr>
+    </table>
+    <p style="margin-top:9em;"></p>
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Notizen</h2>
+            </div>
+            <div class="modal-body">
+                <p id="textModal"></p>
+                <pre id="htmlModal"></pre>
+            </div>
+            <div class="modal-footer">
+                <h3>Stand 2022</h3>
+            </div>
+        </div>
+
+    </div>
+    <div class="buttom">
+        <button class="open-button2" onclick="openForm2()">+</button>
+        <button class="open-button" onclick="openForm()">Neues Element</button>
+    </div>
+    <div class="chat-popup" id="myForm">
+        <div action="/xxxxx" class="form-container">
+            <h1>Element</h1>
+            <label for="name"><b>Name</b></label>
+            <br>
+            <input id="name" type="text" name="name" placeholder="Name..." required>
+            <label for="msg"><b>Notizen</b></label>
+            <textarea id="notices" placeholder="Type notices.." name="msg" required></textarea>
+
+            <button onclick="sending()" class="btn">Send</button>
+            <button class="btn cancel" onclick="closeForm()">Close</button>
+        </div>
+    </div>
+    <!--Neuer Teil-->
+
+    <div class="chat-popup2" id="myForm2">
+        <div class="form-container2">
+            <h1>Element gekauft</h1>
+            <label for="name"><b>Name</b></label>
+            <label for="styledSelect1" class="custom-select">
+                <select id="selectProduct" class="styledSelect1" name="options">
+                    <option value="Select something">Select something</option>
+                </select>
+            </label>
+            <br>
+            <input id="piecesElements" class="inputNumberSold" type="number" min="1" step="1" value="1">
+            <input id="costElement" class="inputNumberSold" type="number" min="0" step="0.01" value="0">&euro;
+            <button onclick="sendElementSold()" class="btn">Send</button>
+            <button class="btn cancel" onclick="closeForm2()">Close</button>
+        </div>
+    </div>
+    <!-- Element here is a error let#s do some things-->
+    <div id="windowAlert" class="windowAlert">
+        <span onclick="closeAlertWindow()" class="closeAlertModal">x</span>
+        <div id="headingAlertWindow" class="linkTextTop"><b>Hover me now !</b></div>
+        <div id="textAlertWindow" class="tipTop">
+            Let's try something else And adding more info here too And even a bit more here also
+        </div>
+    </div>
+    <!-- Modal content -->
+    <div id="licens" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close close2">&times;</span>
+                <h2>Licens</h2>
+            </div>
+            <div class="modal-body">
+                <p style="text-align: center;">
+                    This website is made by Clemens. <br style="margin: 10px;"> The software is mande of express and nodejs. <br style="margin: 10px;"> &copy; Licens 2022
+                </p>
+            </div>
+            <div class="modal-footer">
+                <h3>Timestamp 2022</h3>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="index.js">
+    </script>
+</body>
+
+</html>

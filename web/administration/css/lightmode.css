@@ -1,0 +1,32 @@
+.bodyLightmode {
+    background-color: white;
+}
+
+.lightmodeTable {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.lightmodeTable td,
+.lightmodeTable th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.lightmodeTable tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.lightmodeTable tr:not(:first-child):hover {
+    background-color: #ddd;
+    border-left: 10px solid brown;
+}
+
+.lightmodeTable th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #0081a8;
+    color: white;
+}

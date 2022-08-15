@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/img/50x65-Robot.png">
+    <title>Document</title>
+
+    <style>
+        body {
+            margin: 0;
+            text-align: center;
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        #products div img {
+            width: 396px;
+        }
+        
+        #products {
+            margin-top: 120px;
+            display: flex;
+            gap: 5px;
+            grid-template-columns: repeat(3, 1fr);
+            grid-auto-rows: minmax(100px, auto);
+            flex-wrap: wrap;
+            list-style: none;
+            justify-content: center;
+        }
+        
+        #products .div {
+            border: 1px solid rgb(0, 0, 0);
+            background-color: #d1d1d1 !important;
+            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            margin: 20px;
+        }
+        
+        #products div .name {
+            margin-top: 10px;
+            padding-left: 10px;
+            font-size: x-large;
+            font-weight: 700;
+            display: flex;
+            justify-content: left;
+            align-items: center;
+        }
+        
+        #products div .price {
+            color: rgba(54, 54, 54, 0.514);
+            font-size: xx-large;
+            font-weight: 200;
+            margin-right: 0%;
+            display: flex;
+            justify-content: right;
+            align-items: center;
+        }
+        
+        #products .div {
+            background-color: #f1f1f1;
+            width: auto;
+            padding: 10px;
+            text-align: center;
+        }
+        
+        .head {
+            width: 100%;
+            background-color: rgb(124, 0, 0);
+            position: fixed;
+            top: 0;
+            color: #ffffff;
+            text-align: left;
+        }
+        
+        .head h1 {
+            display: inline-block;
+            padding: 10px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+        
+        .head #card {
+            display: inline-block;
+            position: absolute;
+            right: 10px;
+            top: 20px;
+            filter: invert(100);
+            cursor: pointer;
+        }
+        
+        .sidenav {
+            height: 100%;
+            width: 0;
+            position: fixed;
+            top: 0;
+            right: 0;
+            background-color: #ffffff;
+            overflow-x: hidden;
+            padding-top: 60px;
+            text-align: left;
+        }
+        
+        .sidenav .closebtn:hover {
+            color: #f1f1f1;
+        }
+        
+        .sidenav .closebtn {
+            position: absolute;
+            top: 0;
+            right: 25px;
+            font-size: 36px;
+            margin-left: 50px;
+            padding: 8px 8px 8px 32px;
+            text-decoration: none;
+            color: #818181;
+            display: block;
+            transition: 0.3s;
+        }
+        
+        #products .addCard {
+            background-color: #0d6efd;
+            padding: 10px 20px 10px 20px;
+            font-size: large;
+            border: 1px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: 300ms;
+        }
+        
+        #products .addCard:hover {
+            background-color: #7098d3;
+            border: 5px solid #0d6efd;
+        }
+        
+        @media screen and (max-height: 450px) {
+            .sidenav {
+                padding-top: 15px;
+            }
+            .sidenav a {
+                font-size: 18px;
+            }
+        }
+        
+        #products #items {
+            color: rgba(255, 0, 0, 0.514);
+            font-size: large;
+            font-weight: 200;
+            margin-right: 0%;
+            display: flex;
+            justify-content: right;
+            align-items: center;
+        }
+        
+        #products .plus,
+        #products .minus {
+            background-color: #0d6efd;
+            padding: 10px 13px;
+            border: 0px;
+            border-radius: 5px;
+            margin: 4px;
+            font-size: large;
+            color: #ffffff;
+            cursor: pointer;
+        }
+        
+        #products .itemsInCart {
+            font-size: xx-large;
+        }
+        
+        #products .remove {
+            margin-left: 40%;
+            display: block;
+            background-color: #dc3545;
+            border: 0px;
+            padding: 10px 13px;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .sidenav .imgCard {
+            padding: 10px;
+            width: 150px;
+        }
+        
+        #itemsCart #name {
+            display: inline-block;
+            position: absolute;
+            font-weight: initial;
+            font-size: large;
+        }
+        
+        .footer button {
+            background-color: rgb(7, 78, 0);
+            font-size: large;
+            padding: 10px 40px;
+            border: 0px;
+            border-radius: 5px;
+            color: #ffffff;
+            cursor: pointer;
+        }
+        
+        #Cart {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            padding: 10px;
+        }
+        
+        #itemsCart .priceCartElement {
+            position: absolute;
+            margin-top: 43px;
+            color: #818181;
+            font-size: small;
+        }
+        
+        #itemsCart .removeCartItem {
+            position: absolute;
+            margin-top: 20px;
+            right: 10px;
+            padding: 6px 10px;
+            background-color: white;
+            color: #dc3545;
+            border: 2px solid;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: 100ms;
+        }
+        
+        #itemsCart .removeCartItem:hover {
+            background-color: #dc3545;
+            color: #ffffff;
+        }
+        
+        #itemsCart .priceItemAll {
+            position: absolute;
+            right: 50px;
+            margin-top: 40px;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="shop">
+        <div class="head">
+            <h1>le - shop</h1>
+            <a id="new" style="color: white; display:inline;" href="/shop/upload.html">New product</a>
+            <img id="card" onclick="openNav()" src="/shop/icon/card.svg" alt="Card" width="50px">
+        </div>
+        <div id="mySidenav" class="sidenav">
+            <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+            <div id="Cart">
+                <h2>Your cart</h2>
+                <div id="itemsCart">
+                </div>
+                <div style="text-align: center;" class="footer">
+                    <h3>Total <i id="price"></i> &euro;</h3>
+                    <button onclick="checkout()">Go to checkout</button>
+                </div>
+            </div>
+        </div>
+        <div id="products">
+        </div>
+    </div>
+</body>
+<script src="index.js">
+</script>
+
+</html>
