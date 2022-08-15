@@ -170,6 +170,9 @@ let chatList = new Schema({
     },
     name: {
         type: String
+    },
+    img: {
+        type: String
     }
 })
 const userHere = mongoose.model("user", user);

@@ -3,6 +3,9 @@ const { chatData, chatList } = require('../controllers/schema/mongodb');
 const { hasRole } = require('../controllers/login/checkRoles')
 const router = express.Router();
 const { checkIfChatExists } = require("../controllers/chat/chatCheck")
+const fileUpload = require('express-fileupload');
+const { createNewChatIcon, createChatInDatabase } = require('../controllers/chat/chat');
+const fs = require("fs")
 router.route("/fetchchatItems").get(function (req, res) {
     try {
         res.send("Dont work now");
@@ -80,6 +83,7 @@ router.post("/deleteHistory", (req, res) => {
                             if (err2) {
                                 res.send(err);
                             } else {
+                                fs.unlink("web/chat/upload/227923733125backgorund.jpg")
                                 res.status(200).send("Success !")
                             }
                         })
@@ -189,5 +193,6 @@ router.get("/getChats", (req, res) => {
     }
 });
 
-
+router.use(fileUpload())
+router.post('/new', createNewChatIcon, createChatInDatabase)
 module.exports = router;
