@@ -4,8 +4,13 @@ const { hasRole } = require('../controllers/login/checkRoles')
 const router = express.Router();
 const { checkIfChatExists } = require("../controllers/chat/chatCheck")
 const fileUpload = require('express-fileupload');
-const { createNewChatIcon, createChatInDatabase } = require('../controllers/chat/chat');
+const { createNewChatIcon, createChatInDatabase,
+    sendFileSave, sendFileDatabase } = require('../controllers/chat/chat');
 const fs = require("fs")
+
+router.use(fileUpload())
+router.post('/createChat', createNewChatIcon, createChatInDatabase)
+
 router.route("/fetchchatItems").get(function (req, res) {
     try {
         res.send("Dont work now");
@@ -148,6 +153,11 @@ router.post("/sendMessage", (req, res) => {
         console.error(err);
     }
 })
+
+router.post("/sendFile",
+    sendFileSave,
+    sendFileDatabase);
+
 router.get("/getMessages", (req, res) => {
     var { id } = req.query;
     checkIfChatExists(id).then((state) => {
@@ -156,9 +166,9 @@ router.get("/getMessages", (req, res) => {
                 if (err) {
                     res.send(err);
                 } else {
-                    res.send(result);
+                    res.send(result.reverse());
                 }
-            });
+            }).sort('-time').limit(4);
         }
     });
 });
@@ -182,6 +192,4 @@ router.get("/getChats", (req, res) => {
     }
 });
 
-router.use(fileUpload())
-router.post('/createChat', createNewChatIcon, createChatInDatabase)
 module.exports = router;

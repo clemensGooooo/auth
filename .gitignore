@@ -2,3 +2,6 @@
 
 # dependencies
 /node_modules
+
+/web/chat/chatFiles
+/web/chat/upload
