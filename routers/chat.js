@@ -191,6 +191,7 @@ router.get("/getAllMessages", (req, res) => {
 router.get("/getChats", (req, res) => {
     try {
         var { user } = req.query;
+        // console.log(user);
         chatList.find({
             $expr: {
                 $in: [user, "$users"]

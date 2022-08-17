@@ -175,6 +175,15 @@ let chatList = new Schema({
         type: String
     }
 })
+let chatUserPreferences = new Schema({
+    name: {
+        type: String
+    },
+    img: {
+        type: String
+    }
+})
+
 const userHere = mongoose.model("user", user);
 const rolesHere = mongoose.model("roles", roles);
 const resurceHere = mongoose.model("resurce", resurce);

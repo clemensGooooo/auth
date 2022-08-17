@@ -10,6 +10,17 @@ global.config = require('./config');
 const getAppCookies = require('../controllers/cookies/cookiesParse')
 const { user, roles } = require('../controllers/schema/mongodb');
 
+const makeToken = (length) => {
+    var result = '';
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for (var i = 0; i < length; i++) {
+        result += characters.charAt(Math.floor(Math.random() *
+            charactersLength));
+    }
+    return result;
+}
+
 // without rights you can enter that function
 router.post('/auth', (req, res) => {
     const { email, pwd } = req.body;
@@ -23,13 +34,13 @@ router.post('/auth', (req, res) => {
         // if the psw is correct
         if (req.headers.cookie != undefined) {
             const x = getAppCookies(req);
-            if (x["CookieBy"] != undefined) {
+            if (x["CookieBy"] != undefined && x["CookieBy"] != "") {
                 if (email == findUser.email) {
                     if (pwd == findUser.pwd && findUser.deaktivated == false) {
                         return res.cookie('token', findUser.token, {
-                                maxAge: 20000000000,
-                                httpOnly: true,
-                            }).status(200)
+                            maxAge: 20000000000,
+                            httpOnly: true,
+                        }).status(200)
                             .send('<meta http-equiv="refresh" content="0.01; URL=/">');
 
                     } else {
@@ -53,12 +64,13 @@ router.post('/auth', (req, res) => {
 router.post('/newUser', (req, res) => {
     if (hasRole(req.authorization, "user", "c") == true) {
         try {
-            const { name, email, pwd, token } = req.body;
+            const { name, email, pwd } = req.body;
+            const token = makeToken(70);
             const rolesHere = req.body.roles;
             var data = [
                 { name: name, email: email, pwd: pwd, roles: rolesHere, token: token, deaktivated: false }
             ]
-            user.insertMany(data, function(err, result) {
+            user.insertMany(data, function (err, result) {
                 if (err) {
                     res.send(err);
                 } else {
@@ -97,8 +109,8 @@ router.put('/updatePWD', (req, res) => {
 
 router.post('/updateAble', (req, res) => {
     user.findOne({
-            email: req.body.email
-        },
+        email: req.body.email
+    },
         (err, result) => {
             if (err) {
                 res.send(err);
@@ -106,7 +118,7 @@ router.post('/updateAble', (req, res) => {
                 // overwrite pwd for secure
                 result.pwd = "----";
                 if (hasRole(req.authorization, result.roles[0], "u") == true) {
-                    user.updateOne({ email: req.body.email }, { deaktivated: req.body.deaktivate }, function(err, result) {
+                    user.updateOne({ email: req.body.email }, { deaktivated: req.body.deaktivate }, function (err, result) {
                         if (err) {
                             console.log(err)
                         } else {
@@ -121,33 +133,30 @@ router.post('/updateAble', (req, res) => {
         });
 })
 
-router.route("/fetchdata").get(function(req, res) {
-    if (hasRole(req.authorization, "user", "r") == true) {
-        try {
-            user.find({}, function(err, result) {
-                if (err) {
-                    res.send(err);
-                } else {
-                    // overwrite pwd for secure
-                    result.forEach(element => {
-                        element.pwd = "----";
-                    });
-                    res.send(result);
-                }
-            });
-        } catch {
-            res.status(401).sendFile("/home/clemens/Dokumente/auth/web/401.html");
-        }
-    } else {
+router.route("/fetchdata").get(function (req, res) {
+    try {
+        user.find({}, function (err, result) {
+            if (err) {
+                res.send(err);
+            } else {
+                // overwrite pwd for secure
+                result.forEach(element => {
+                    element.pwd = "----";
+                });
+                res.send(result);
+            }
+        });
+    } catch {
         res.status(401).sendFile("/home/clemens/Dokumente/auth/web/401.html");
     }
+
 });
 
-router.route("/fetchdataUser").get(function(req, res) {
+router.route("/fetchdataUser").get(function (req, res) {
     try {
         user.findOne({
-                token: req.cookiesUsed
-            },
+            token: req.cookiesUsed
+        },
             (err, result) => {
                 if (err) {
                     res.send(err);
@@ -166,7 +175,7 @@ router.route("/fetchdataUser").get(function(req, res) {
 router.route("/fetchRoles").get((req, res) => {
     if (hasRole(req.authorization, "owner", "r") == true) {
         try {
-            roles.find({}, function(err, result) {
+            roles.find({}, function (err, result) {
                 if (err) {
                     res.send(err);
                 } else {
@@ -192,7 +201,7 @@ router.post('/newRole', (req, res) => {
             var data = [
                 { name: name, notices: notices, includes: otherRoles }
             ]
-            roles.insertMany(data, function(err, result) {
+            roles.insertMany(data, function (err, result) {
                 if (err) {
                     res.send(err);
                 } else {

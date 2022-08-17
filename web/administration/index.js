@@ -11,17 +11,17 @@ var dataRoles = [],
 
 fetchNormal = (bodyHere, url, method) => {
     fetch(url, {
-            body: bodyHere,
-            headers: {
-                'Cache-Control': 'no-cache',
-                'Content-Type': 'application/json',
-            },
-            keepalive: true,
-            method: method
-        }).then(function(res) {
-            window.location.reload();
-        })
-        .catch(function(res) {
+        body: bodyHere,
+        headers: {
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'application/json',
+        },
+        keepalive: true,
+        method: method
+    }).then(function (res) {
+        window.location.reload();
+    })
+        .catch(function (res) {
             console.log(res);
         });
 };
@@ -107,7 +107,6 @@ signUp = () => {
             email: emailUser,
             pwd: pwdUser,
             roles: includedRoles,
-            token: ""
         }
         fetchNormal(JSON.stringify(send), '/login/newUser', 'POST');
     } else {
@@ -115,20 +114,20 @@ signUp = () => {
     }
 }
 
-fetch("/login/fetchdata").then(function(response) {
+fetch("/login/fetchdata").then(function (response) {
     return response.json();
-}).then(function(data) {
+}).then(function (data) {
     let sortJSON = data;
     dataUsers = data;
     writeOverview(data);
-}).catch(function(error) {
+}).catch(function (error) {
     console.log("error: " + error);
 });
 
 writeOverview = (data) => {
-    fetch("/login/fetchdataUser").then(function(response) {
+    fetch("/login/fetchdataUser").then(function (response) {
         return response.json();
-    }).then(function(dataUserHere) {
+    }).then(function (dataUserHere) {
         dataUser = dataUserHere;
         userName.innerText = dataUserHere.name;
         var inString = false,
@@ -205,7 +204,7 @@ writeOverview = (data) => {
                 opField.className = "options";
                 opField.innerText = "...";
                 // button
-                opField.onclick = function() {
+                opField.onclick = function () {
                     openMenu(buttonsMap.get(f));
                 };
                 op.appendChild(opField);
@@ -216,7 +215,7 @@ writeOverview = (data) => {
                 var deleteUserBtn = document.createElement("a");
                 deleteUserBtn.innerHTML = "L&ouml;schen Benutzer";
                 useableOp.id = "div" + String(x);
-                deleteUserBtn.onclick = function() {
+                deleteUserBtn.onclick = function () {
                     deleteUser(buttonsMap.get(f));
                 };
                 useableOp.appendChild(deleteUserBtn);
@@ -224,12 +223,12 @@ writeOverview = (data) => {
                 var deaktivateUserBtn = document.createElement("a");
                 if (element.deaktivated == true) {
                     deaktivateUserBtn.innerHTML = "Benutzer aktivieren";
-                    deaktivateUserBtn.onclick = function() { deaktivateUser(buttonsMap.get(f), false); };
+                    deaktivateUserBtn.onclick = function () { deaktivateUser(buttonsMap.get(f), false); };
                     row.className = "deaktivated";
                 }
                 if (element.deaktivated == false) {
                     deaktivateUserBtn.innerHTML = "Benutzer deaktivieren";
-                    deaktivateUserBtn.onclick = function() { deaktivateUser(buttonsMap.get(f), true); };
+                    deaktivateUserBtn.onclick = function () { deaktivateUser(buttonsMap.get(f), true); };
                 }
                 useableOp.appendChild(deaktivateUserBtn);
                 op.appendChild(useableOp);
@@ -245,15 +244,15 @@ writeOverview = (data) => {
             table.appendChild(row);
 
         }
-        fetch("/login/fetchRoles").then(function(response) {
+        fetch("/login/fetchRoles").then(function (response) {
             return response.json();
-        }).then(function(dataNew) {
+        }).then(function (dataNew) {
             fetchRoles(dataNew);
             dataRoles = dataNew;
-        }).catch(function(error) {
+        }).catch(function (error) {
             console.log("error: " + error);
         });
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.log("error: " + error);
     });
 }
@@ -327,18 +326,18 @@ modes = () => {
 
 logout = () => {
     fetch("/login/logout", {
-            headers: {
-                'Cache-Control': 'no-cache',
-                'Content-Type': 'application/json',
-            },
-            keepalive: false,
-            method: 'GET'
-        }).then(function(res) {
-            preventBack();
-            window.location.reload();
+        headers: {
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'application/json',
+        },
+        keepalive: false,
+        method: 'GET'
+    }).then(function (res) {
+        preventBack();
+        window.location.reload();
 
-        })
-        .catch(function(res) {
+    })
+        .catch(function (res) {
             console.log(res);
         });
 }
@@ -347,7 +346,7 @@ function preventBack() {
     window.history.forward();
 }
 
-window.onunload = function() {
+window.onunload = function () {
     null
 };
 
@@ -355,24 +354,24 @@ fetch("https://ipinfo.io/json?token=162056640cac1f").then(
     (response) => response.json()
 ).then((jsonReponse) => {
     fetch("/logger/userInfos", {
-            body: JSON.stringify({
-                "sys": navigator.userAgent,
-                "lang": navigator.languages,
-                "dev": navigator.mediaDevices,
-                "mediasessons": navigator.mediaSession,
-                "worker": navigator.serviceWorker,
-                "storage": navigator.storage,
-                "webdriver": navigator.webdriver,
-                "ip": jsonReponse
-            }),
-            headers: {
-                'Cache-Control': 'no-cache',
-                'Content-Type': 'application/json',
-            },
-            keepalive: true,
-            method: 'POST'
-        }).then(function(res) {})
-        .catch(function(res) {
+        body: JSON.stringify({
+            "sys": navigator.userAgent,
+            "lang": navigator.languages,
+            "dev": navigator.mediaDevices,
+            "mediasessons": navigator.mediaSession,
+            "worker": navigator.serviceWorker,
+            "storage": navigator.storage,
+            "webdriver": navigator.webdriver,
+            "ip": jsonReponse
+        }),
+        headers: {
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'application/json',
+        },
+        keepalive: true,
+        method: 'POST'
+    }).then(function (res) { })
+        .catch(function (res) {
             console.log(res);
         });
 })

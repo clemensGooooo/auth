@@ -3,5 +3,10 @@
 # dependencies
 /node_modules
 
+# images
 /web/chat/chatFiles
 /web/chat/upload
+/web/chat/user
+
+/web/shop/upload
+

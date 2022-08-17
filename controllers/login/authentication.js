@@ -19,6 +19,7 @@ const authentication = (req, res, next) => {
         } else {
             req.cookiesUsed = cookies["token"];
             // find the token in the database
+
             user.findOne({ token: cookies["token"] }, (err, docs) => {
                 if (err) { console.log(err) } else { return docs; }
             }).clone().then(picedUser => {
@@ -29,11 +30,12 @@ const authentication = (req, res, next) => {
                 } else if (req.url == "/login/logout") {
                     next();
                 } else {
-                    res.status(412).sendFile('/home/clemens/Dokumente/auth/web/issue.html');
+                    res.status(412).sendFile(__dirname + 'web/issue.html');
                 }
             }).catch(err => {
                 console.error(err);
             });
+
         }
     } catch {
         // if you don't have a token
