@@ -172,6 +172,22 @@ router.get("/getMessages", (req, res) => {
         }
     });
 });
+
+router.get("/getAllMessages", (req, res) => {
+    var { id } = req.query;
+    checkIfChatExists(id).then((state) => {
+        if (true == state) {
+            chatData.find({ id: id }, function (err, result) {
+                if (err) {
+                    res.send(err);
+                } else {
+                    res.send(result);
+                }
+            });
+        }
+    });
+});
+
 router.get("/getChats", (req, res) => {
     try {
         var { user } = req.query;
