@@ -19,7 +19,7 @@ router.get('/mp4', (req, res) => {
             .replace(/([~!@#$%^&*()_+=`{}\[\]\|\\:;'<>,.\/? ])+/g, ' ')
             .replace(/^(-)+|(-)+$/g, '')
             .replace(/’/g, "'")
-            // console.log(name);
+        // console.log(name);
         try {
             res.header("Content-Disposition", `attachment; filename =${name}.mp4`);
             ytdl(url, { format: 'mp4', quality: "lowest" }).pipe(res);
@@ -47,13 +47,13 @@ router.get('/mp3', (req, res) => {
         }
         yd.download(x[1], x[1] + ".mp3")
 
-        yd.on("finished", function(err, data) {
+        yd.on("finished", function (err, data) {
             let name = data.videoTitle
                 .replace(/([~!@#$%^&*()_+=`{}\[\]\|\\:;'<>,.\/? ])+/g, ' ')
                 .replace(/^(-)+|(-)+$/g, '')
                 .replace(/’/g, "'")
-                // console.log(data);
-            res.header("Content-Disposition", `attachment; filename = ${ name }.mp3 `);
+            // console.log(data);
+            res.header("Content-Disposition", `attachment; filename = ${name}.mp3 `);
             res.sendFile(path.join(__dirname, '../download/', x[1] + ".mp3"));
 
             setTimeout(() => {
@@ -64,7 +64,7 @@ router.get('/mp3', (req, res) => {
             }, 2000)
 
         });
-        yd.on("progress", function(progress) {
+        yd.on("progress", function (progress) {
             // console.log(JSON.stringify(progress));
         });
     } catch (err) { console.log(err); }

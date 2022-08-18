@@ -1,12 +1,13 @@
 const express = require('express');
-const { chatData, chatList } = require('../controllers/schema/mongodb');
-const { hasRole } = require('../controllers/login/checkRoles')
 const router = express.Router();
-const { checkIfChatExists } = require("../controllers/chat/chatCheck")
+const { chatData, chatList, chatUserPreferences } = require('../controllers/schema/mongodb');
+const { hasRole } = require('../controllers/login/checkRoles')
+const { checkIfChatExists, checkIfUserExistsInProfile } = require("../controllers/chat/chatCheck")
 const fileUpload = require('express-fileupload');
 const { createNewChatIcon, createChatInDatabase,
     sendFileSave, sendFileDatabase } = require('../controllers/chat/chat');
 const fs = require("fs")
+const api = require("../controllers/chat/api")
 
 router.use(fileUpload())
 router.post('/createChat', createNewChatIcon, createChatInDatabase)
@@ -208,5 +209,91 @@ router.get("/getChats", (req, res) => {
         console.error(err);
     }
 });
+router.use("/api", api);
 
+router.post("/setSettings", (req, res, next) => {
+    try {
+        const { user, name, profile } = req.body;
+        checkIfUserExistsInProfile(user).then((value) => {
+            if (value === false) {
+                var preferences = [{
+                    userName: user,
+                    name: "",
+                    img: "",
+                    profile: ""
+                }]
+                if (name != undefined)
+                    preferences[0].name = name;
+                if (req.files != undefined)
+                    if (req.files.File.size < 50369528)
+                        if (req.files)
+                            if (req.files.File != undefined)
+                                preferences.img = Math.floor(Math.random() * 1000000000000) + 1
+                                    + req.files.File.name;
+                if (profile != undefined)
+                    preferences[0].profile = profile
+
+                chatUserPreferences.insertMany(preferences, () => {
+                    if (preferences.img != value[0].img)
+                        req.files.File.mv(`web/chat/user/` + preferences.img, (err) => {
+                            if (err) {
+                                res.status(400).send(err);
+                            } else {
+                                res.status(200).send("Success")
+                            }
+                        })
+                })
+            } else {
+                var preferences = {
+                    userName: user,
+                    name: value[0].name,
+                    img: value[0].img,
+                    profile: value[0].profile
+                }
+                if (name != undefined)
+                    preferences.name = name;
+                if (req.files != undefined)
+                    if (req.files.File.size < 50369528)
+                        if (req.files)
+                            if (req.files.File != undefined)
+                                preferences.img = Math.floor(Math.random() * 1000000000000) + 1
+                                    + req.files.File.name;
+                if (profile != undefined)
+                    preferences.profile = profile
+
+                chatUserPreferences.updateOne(preferences, () => {
+                    if (preferences.img != value[0].img)
+                        req.files.File.mv(`web/chat/user/` + preferences.img, (err) => {
+                            if (err) {
+                                res.status(400).send(err);
+                            } else {
+                                if (value[0].img != "")
+                                    fs.unlink("web/chat/user/" + value[0].img, (err) => {
+                                        if (err) {
+                                            console.log(err);
+                                        } else {
+                                            res.status(200).send("Success")
+                                        }
+                                    })
+                            }
+                        })
+                })
+            }
+        })
+    } catch (error) {
+        console.error(error);
+    }
+});
+
+router.post("/settings", (req, res) => {
+    const { user } = req.body;
+    chatUserPreferences.findOne({ user: user }, (err, result) => {
+        if (err) {
+            console.log(err);
+            res.send(err);
+        } else {
+            res.send(result)
+        }
+    })
+})
 module.exports = router;

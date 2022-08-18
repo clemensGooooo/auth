@@ -176,10 +176,16 @@ let chatList = new Schema({
     }
 })
 let chatUserPreferences = new Schema({
+    userName: {
+        type: String
+    },
     name: {
         type: String
     },
     img: {
+        type: String
+    },
+    profile: {
         type: String
     }
 })
@@ -192,7 +198,7 @@ const productDataHere = mongoose.model("productData", productData);
 const shopHere = mongoose.model("shop", shop);
 const chatDataHere = mongoose.model("chatData", chatData)
 const chatListHere = mongoose.model("chatList", chatList)
-
+const chatUserPreferencesHere = mongoose.model("chatUserPreferences", chatUserPreferences)
 module.exports = {
     user: userHere,
     roles: rolesHere,
@@ -201,7 +207,8 @@ module.exports = {
     productData: productDataHere,
     shop: shopHere,
     chatData: chatDataHere,
-    chatList: chatListHere
+    chatList: chatListHere,
+    chatUserPreferences: chatUserPreferencesHere
 };
 
 //

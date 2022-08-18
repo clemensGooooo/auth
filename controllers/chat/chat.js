@@ -1,4 +1,4 @@
-const { chatList, chatData } = require("../schema/mongodb");
+const { chatList, chatData, chatUserPreferences } = require("../schema/mongodb");
 
 const createNewChatIcon = (req, res, next) => {
     var { users, name } = req.body, img = "";
@@ -116,9 +116,6 @@ const sendFileDatabase = (req, res, next) => {
         res.status(401).sendFile("/home/clemens/Dokumente/auth/web/401.html");
     }
 }
-
-
-// TODO: #1 Read all files from send and save them in local directory
 
 module.exports = {
     createNewChatIcon: createNewChatIcon,
