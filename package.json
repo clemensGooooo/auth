@@ -27,8 +27,7 @@
         "muter": "^0.7.0",
         "pg": "^8.7.3",
         "sharp": "^0.30.7",
-        "youtube-mp3-downloader": "^0.7.10",
-        "ytdl": "^1.4.1",
-        "ytdl-core": "^4.11.0"
+        "youtube-dl": "^3.5.0",
+        "youtube-mp3-downloader": "^0.7.10"
     }
 }
