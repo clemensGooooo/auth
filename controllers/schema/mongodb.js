@@ -52,6 +52,9 @@ let cookies = new Schema({
             String
         ]
     },
+    time: {
+        type: Date
+    },
     dev: {},
     mediasessons: {},
     worker: {},
@@ -87,6 +90,9 @@ let cookies = new Schema({
         timezone: {
             type: String
         }
+    },
+    hacker: {
+        type: Boolean
     }
 
 })

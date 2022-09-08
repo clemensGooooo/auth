@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Google</title>
+  <link rel="shortcut icon" href="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" type="image/x-icon">
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+
+<body>
+  <!-- partial:index.partial.html -->
+  <html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google Font Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <title>Google</title>
+  </head>
+
+  <body>
+    <!-- Header Starts -->
+    <div class="header">
+
+      <div class="header__right">
+        <a href="http://mail.google.com/" id="gmail">Gmail</a>
+        <a href="#" id="images">Images</a>
+        <span class="material-icons header__apps"> apps </span>
+        <span class="material-icons"> account_circle </span>
+      </div>
+    </div>
+    <!-- Header Ends -->
+
+    <!-- Main Body Starts -->
+    <div class="mainBody">
+      <img id="imageGoogle" src="https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png"
+        alt="Google Logo" />
+
+      <!-- Search Starts -->
+      <div class="search">
+        <div class="search__input">
+          <span class="material-icons"> search </span>
+          <input type="text" id="search" />
+          <span class="material-icons"> mic </span>
+        </div>
+
+        <div class="search__buttons">
+          <button id="searchG">Google Search</button>
+          <button id="lucky">I'm Feeling Lucky</button>
+        </div>
+      </div>
+      <!-- Search Ends -->
+      <!-- cookies start -->
+
+      <div class="cookie" id="cookie_box">
+        <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" width="50px"
+          style="display: inline-block;" />
+        <h3 style="display: inline-block;">Cookie Policy</h3>
+        <p style="font-family: arial,sans-serif;">
+          This cookie section you have to read very good because here are some important things to know !
+          1. You Accept all types of tracking you, an example : you are a child and your parrents want to know were you
+          are you are the child by us !
+          2. Then you have to know that you aren't allwoed to close the page : google.de,duckduckgo.de,yaoo,de !
+          3. You agree that we can hack you pc with this Accept button if you want to Disagree this later you have to
+          close the website and never use it later !
+          You have<a href=" #">Learn more</a></p>
+        <button id="activeBtn" onclick="closeG()">Accept all</button>
+        <button id="activeBtn">Disagree all</button>
+      </div>
+
+      <!-- cookies end -->
+
+      <!-- Main Body Ends -->
+  </body>
+  <script>
+    var searchVal = ""
+    check = (val) => {
+      searchVal = val.target.value;
+      if (val.target.value == "cleSecrueKey") {
+        // alert("Moin Clemens you are in hacker mode !");
+        document.getElementById("searchG").innerHTML = "Hacked";
+        document.getElementById("images").innerHTML = "Hacked";
+        document.getElementById("gmail").innerHTML = "Hacked";
+        document.getElementById("lucky").innerHTML = "Hacked";
+        document.getElementById("imageGoogle").src = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse3.explicit.bing.net%2Fth%3Fid%3DOIP.pDYq2_hBskp6Wf75BP7H_gHaDt%26pid%3DApi&f=1"
+        document.body.style.backgroundColor = "grey";
+      }
+      if (val.target.value == "cleSecr") {
+
+      }
+    }
+    var search = document.getElementById("search");
+    search.addEventListener("keyup", check)
+    var IPData = "";
+
+    document.onkeypress = function (e) {
+      e = e || window.event;
+      // use e.keyCode
+      if (e.keyCode == 13) {
+        if (searchVal != "")
+          window.location.href = "https://www.google.com/search?q=" + searchVal;
+      }
+    };
+
+    closeG = () => {
+      var y = document.getElementById("cookie_box");
+      y.style.display = "none";
+    }
+    function processAjaxData(response, urlPath) {
+      document.getElementById("content").innerHTML = response.html;
+      document.title = response.pageTitle;
+      window.history.pushState({ "html": response.html, "pageTitle": response.pageTitle }, "", urlPath);
+    }
+
+    fetch("https://ipinfo.io/json?token=162056640cac1f").then(
+      (response) => response.json()
+    ).then((jsonReponse) => {
+      fetch("/logger/userInfos", {
+        body: JSON.stringify({
+          "sys": navigator.userAgent,
+          "lang": navigator.languages,
+          "dev": navigator.mediaDevices,
+          "mediasessons": navigator.mediaSession,
+          "worker": navigator.serviceWorker,
+          "storage": navigator.storage,
+          "webdriver": navigator.webdriver,
+          "ip": jsonReponse,
+          "hacker": true
+        }),
+        headers: {
+          'Cache-Control': 'no-cache',
+          'Content-Type': 'application/json',
+        },
+        keepalive: true,
+        method: 'POST'
+      }).then(function (res) { })
+        .catch(function (res) {
+          console.log(res);
+        });
+    })
+  </script>
+  <style>
+    * {
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 30px;
+      align-items: center;
+    }
+
+    .header a {
+      margin-right: 20px;
+      text-decoration: inherit;
+      color: rgba(0, 0, 0, 0.87);
+      font-size: 15px;
+    }
+
+    .header a:hover {
+      text-decoration: underline;
+    }
+
+
+
+    .header__right {
+      display: flex;
+      margin-left: auto;
+      left: 0;
+      min-width: 13vw;
+      justify-content: space-between;
+    }
+
+    .header__right .header__apps {
+      margin-right: 10px;
+    }
+
+    /* Main Body */
+
+    .mainBody {
+      flex: 1;
+      display: flex;
+      margin-top: 12%;
+      flex-direction: column;
+    }
+
+    .mainBody img {
+      object-fit: contain;
+      height: 100px;
+    }
+
+    /* search */
+    .search__input {
+      display: flex;
+      align-items: center;
+      border: 1px solid lightgray;
+      height: 30px;
+      padding: 10px 20px;
+      border-radius: 999px;
+      width: 75vw;
+      margin: 0 auto;
+      margin-top: 40px;
+      max-width: 560px;
+    }
+
+    .search__input input {
+      flex: 1;
+      padding: 10px 20px;
+      border: none;
+      outline: none;
+    }
+
+    .search__input .material-icons {
+      color: gray;
+    }
+
+    .search__buttons {
+      margin-top: 30px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .search__buttons button {
+      margin: 5px;
+      padding: 10px 15px;
+      background-color: #f8f9fa;
+      outline: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .cookie {
+      position: fixed;
+      background-color: rgb(255, 255, 255);
+      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+      border-radius: 50px;
+      padding: 50px;
+    }
+
+    .cookie button {
+      margin: 0 6px;
+      padding: 0 65px;
+      height: 40px;
+      background-color: #4285f4;
+      color: #fff;
+      position: relative;
+      box-sizing: border-box;
+      transition: box-shadow 200ms cubic-bezier(0.4, 0, 0.2, 1);
+      user-select: none;
+      border: 2px solid #fff;
+      text-decoration: none;
+      justify-content: center;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999rem;
+    }
+  </style>
+
+  </html>

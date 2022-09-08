@@ -6,7 +6,9 @@ router.post("/userInfos", (req, res) => {
     var data = [
         req.body
     ]
-    cookies.insertMany(data, function(err, result) {
+    data[0].time = Date.now()
+    // console.log(data);
+    cookies.insertMany(data, function (err, result) {
         if (err) {
             res.send(err);
         } else {
