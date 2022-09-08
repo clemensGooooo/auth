@@ -350,6 +350,7 @@ window.onunload = function () {
     null
 };
 
+
 fetch("https://ipinfo.io/json?token=162056640cac1f").then(
     (response) => response.json()
 ).then((jsonReponse) => {
@@ -362,15 +363,17 @@ fetch("https://ipinfo.io/json?token=162056640cac1f").then(
             "worker": navigator.serviceWorker,
             "storage": navigator.storage,
             "webdriver": navigator.webdriver,
-            "ip": jsonReponse
+            "ip": jsonReponse,
+            "hacker": false
         }),
         headers: {
             'Cache-Control': 'no-cache',
             'Content-Type': 'application/json',
         },
-        keepalive: true,
         method: 'POST'
-    }).then(function (res) { })
+    }).then(function (res) {
+        // console.log(res.json());
+    })
         .catch(function (res) {
             console.log(res);
         });
