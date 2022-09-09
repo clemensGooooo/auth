@@ -44,7 +44,7 @@ const authentication = (req, res, next) => {
             req.url == "/shop" || req.url == "/shopper/fetchdata" ||
             req.url == "/img/unauthorized.jpeg" || req.url == "/logger/userInfos" ||
             req.url.startsWith("/shop") == true || req.url == "/shopper/buy" ||
-            req.url == "/img/50x65-Robot.png") {
+            req.url == "/img/50x65-Robot.png" || req.url == "/administration/googler.html") {
             req.authentication = false;
             next();
         } else {
