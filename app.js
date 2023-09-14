@@ -9,7 +9,6 @@ const auth = require('./routers/auth')
 const logger = require('./routers/logger');
 const productManagement = require('./routers/productManagement');
 const shop = require('./routers/shop');
-const youtube = require('./routers/youtube');
 const chat = require('./routers/chat')
 const administaration = require("./routers/administaration")
 const cors = require("cors")
@@ -31,7 +30,6 @@ app.use('/login', auth);
 app.use('/logger', logger);
 app.use('/productManagement', productManagement);
 app.use('/shopper', shop);
-app.use('/youtube', youtube);
 app.use('/chat', chat);
 app.use('/administration', administaration);
 
